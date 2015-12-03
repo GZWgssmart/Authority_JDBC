@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS t_user;
 CREATE TABLE t_user (
   id varchar(36) NOT NULL COMMENT '用户ID',
   name varchar(50) NOT NULL COMMENT '用户名称',
-  password varchar(50) NOT NULL COMMENT '用户密码',
+  password varchar(128) NOT NULL COMMENT '用户密码',
   PRIMARY KEY (id),
   KEY t_user_id (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
