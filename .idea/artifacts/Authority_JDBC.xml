@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Authority_JDBC">
+    <output-path>$PROJECT_DIR$/classes/artifacts/Authority_JDBC</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.36" />
+        </element>
+        <element id="directory" name="classes">
+          <element id="module-output" name="Authority_JDBC" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="Authority_JDBC/web/Web" />
+    </root>
+  </artifact>
+</component>
