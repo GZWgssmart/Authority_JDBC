@@ -25,7 +25,7 @@ public class UserServiceTest extends TestCase {
         User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setName("Wgssmart");
-        user.setPassword(EncryptUtil.encrypt("123456"));
+        user.setPassword(EncryptUtil.md5Encrypt("123456"));
         userService.add(user);
     }
 
