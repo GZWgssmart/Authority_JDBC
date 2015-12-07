@@ -25,7 +25,7 @@ public class RoleServiceTest extends TestCase {
 
         Role role = new Role();
         role.setId(UUID.randomUUID().toString());
-        role.setName("system");
+        role.setName("normal");
         roleService.add(role);
     }
 

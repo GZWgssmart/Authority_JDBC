@@ -1,3 +1,4 @@
+import com.gs.authority.bean.Pager;
 import com.gs.authority.bean.Role;
 import com.gs.authority.bean.User;
 import com.gs.authority.service.UserService;
@@ -30,11 +31,28 @@ public class UserServiceTest extends TestCase {
     }
 
     @Test
+    public void testQueryWithRoles() {
+        User user = new User();
+        user.setName("Wgssmart");
+        user.setPassword("123456");
+        user = userService.queryWithRoles(user);
+        if(user != null) {
+            System.out.println(user.getName());
+        }
+    }
+
+    @Test
     public void testQueryByIdWithRoles() {
         User user = userService.queryByIdWithRoles("36755cc5-6155-45fc-a693-f28c968dfb5e");
         List<Role> roles = user.getRoles();
         for(int i = 0, len = roles.size(); i < len; i++) {
             System.out.println(roles.get(i).getId() + ": " + roles.get(i).getName());
         }
+    }
+
+    @Test
+    public void testQueryByPager() {
+        Pager<User> userPager = userService.queryByPager(1, 20);
+        System.out.println(userPager.getObjects().get(0).getName());
     }
 }

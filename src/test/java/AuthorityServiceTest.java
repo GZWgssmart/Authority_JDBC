@@ -24,8 +24,8 @@ public class AuthorityServiceTest extends TestCase {
     public void testAdd() {
         Authority authority = new Authority();
         authority.setId(UUID.randomUUID().toString());
-        authority.setName("添加角色");
-        authority.setAction("com.gs.authority.service.RoleService.add");
+        authority.setName("查询所有用户");
+        authority.setAction("com.gs.authority.service.UserService.queryByPager");
         authorityService.add(authority);
     }
 

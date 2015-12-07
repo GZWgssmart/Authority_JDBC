@@ -15,7 +15,9 @@ public class User implements Serializable {
 
     private List<Role> roles;
 
-    private Role currentRole;
+    private String roleNames;
+
+    private Role defaultRole;
 
     public String getId() {
         return id;
@@ -49,11 +51,19 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public Role getCurrentRole() {
-        return currentRole;
+    public Role getDefaultRole() {
+        return defaultRole;
     }
 
-    public void setCurrentRole(Role currentRole) {
-        this.currentRole = currentRole;
+    public void setDefaultRole(Role defaultRole) {
+        this.defaultRole = defaultRole;
+    }
+
+    public String getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
     }
 }

@@ -1,5 +1,6 @@
 package com.gs.authority.dao;
 
+import com.gs.authority.bean.Pager;
 import com.gs.authority.bean.Role;
 import com.gs.authority.bean.User;
 
@@ -15,84 +16,112 @@ public class RoleDAO extends BaseDAO<Role> {
 
     private Connection conn;
 
-    public RoleDAO() {
+    public RoleDAO() throws SQLException, ClassNotFoundException {
         conn = openConnection();
     }
 
     @Override
-    public Role add(Role role) {
+    public Role add(Role role) throws SQLException {
         String sql = "insert into t_role(id, name) values(?, ?)";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, role.getId());
-            stmt.setString(2, role.getName());
-            if (stmt.execute()) {
-                return role;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, role.getId());
+        stmt.setString(2, role.getName());
+        stmt.execute();
+        int updateCount = stmt.getUpdateCount();
+        stmt.close();
         closeConnection();
+        return updateCount == 1 ? role : null;
+    }
+
+    @Override
+    public boolean delete(Role role) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean inactive(Role role) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean active(Role role) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public Role queryById(Object id) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean delete(Role role) {
-        return false;
-    }
-
-    @Override
-    public boolean inactive(Role role) {
-        return false;
-    }
-
-    @Override
-    public boolean active(Role role) {
-        return false;
-    }
-
-    @Override
-    public Role queryById(Object id) {
+    public List<Role> queryAll() throws SQLException {
         return null;
     }
 
     @Override
-    public List<Role> queryAll() {
+    public Pager<Role> queryByPager(Pager pager) throws SQLException {
         return null;
     }
 
     /**
      * 根据角色id获取角色信息,并且获取该角色下的所有用户
+     *
      * @param roleId
      * @return
      */
-    public Role queryByIdWithUsers(String roleId) {
-        Role  role = new Role();
-        List<User> users = new ArrayList<User>();
-        String sql = "select r.id as role_id, r.name as role_name, u.id as user_id, u.name as user_name "
-                + "from t_role r, t_role_user ru, t_user u "
-                + "where r.id = ? and r.id = ru.role_id and ru.user_id = u.id";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, roleId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                if (role.getId() == null) {
-                    role.setId(rs.getString("role_id"));
-                    role.setName(rs.getString("role_name"));
-                }
-                User user = new User();
-                user.setId(rs.getString("user_id"));
-                user.setName(rs.getString("user_name"));
-                users.add(user);
-            }
-            role.setUsers(users);
-            return role;
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public Role queryByIdWithUsers(String roleId) throws SQLException {
+        Role role = getRole(roleId);
+        if(role != null) {
+            role.setUsers(getUsersForRole(roleId));
         }
         closeConnection();
-        return null;
+        return role;
+    }
+
+    private Role getRole(String roleId) throws SQLException {
+        Role role = null;
+        String sql = "select * from t_role where id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, roleId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            role = new Role();
+            role.setId(rs.getString("id"));
+            role.setName(rs.getString("name"));
+            role.setAllAuthority(rs.getInt("all_authority") == 1 ? true : false);
+        }
+        rs.close();
+        stmt.close();
+        return role;
+    }
+
+    private List<User> getUsersForRole(String roleId) throws SQLException {
+        List<User> users = null;
+        String sql = "select u.id, u.name, u.default_role, u.role_names, " +
+                "(select tr.name from t_role tr join u on u.default_role = tr.id) as default_role_name " +
+                "from t_user u join t_role_user ru on " +
+                "u.id = ru.user_id and ru.role_id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, roleId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            users = new ArrayList<User>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getString("id"));
+                user.setName(rs.getString("name"));
+                user.setRoleNames(rs.getString("role_names"));
+                Role defaultRole = new Role();
+                defaultRole.setId(rs.getString("default_role"));
+                defaultRole.setName(rs.getString("default_role_name"));
+                user.setDefaultRole(defaultRole);
+                users.add(user);
+            }
+        }
+        rs.close();
+        stmt.close();
+        return users;
     }
 
 }

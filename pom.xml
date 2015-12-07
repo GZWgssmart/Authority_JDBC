@@ -45,6 +45,8 @@
         <taglibs-version>1.1.2</taglibs-version>
         <jstl-version>1.2</jstl-version>
         <commons-lang-version>3.4</commons-lang-version>
+        <kaptcha-version>2.3.2</kaptcha-version>
+        <fastjson-version>1.2.7</fastjson-version>
     </properties>
 
     <dependencies>
@@ -67,6 +69,18 @@
             <artifactId>junit</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson-version}</version>
         </dependency>
 
     </dependencies>

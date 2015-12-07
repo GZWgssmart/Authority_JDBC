@@ -1,6 +1,7 @@
 package com.gs.authority.dao;
 
 import com.gs.authority.bean.Authority;
+import com.gs.authority.bean.Pager;
 import com.sun.org.apache.xerces.internal.util.AugmentationsImpl;
 
 import java.sql.Connection;
@@ -16,50 +17,51 @@ public class AuthorityDAO extends BaseDAO<Authority> {
 
     private Connection conn;
 
-    public AuthorityDAO() {
+    public AuthorityDAO() throws SQLException, ClassNotFoundException {
         conn = openConnection();
     }
 
     @Override
-    public Authority add(Authority authority) {
+    public Authority add(Authority authority) throws SQLException {
         String sql = "insert into t_authority(id, name, action) values(?, ?, ?)";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, authority.getId());
-            stmt.setString(2, authority.getName());
-            stmt.setString(3, authority.getAction());
-            if (stmt.execute()) {
-                return authority;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, authority.getId());
+        stmt.setString(2, authority.getName());
+        stmt.setString(3, authority.getAction());
+        stmt.execute();
+        int updateCount = stmt.getUpdateCount();
+        stmt.close();
         closeConnection();
+        return updateCount == 1 ? authority : null;
+    }
+
+    @Override
+    public boolean delete(Authority authority) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean inactive(Authority authority) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean active(Authority authority) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public Authority queryById(Object id) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean delete(Authority authority) {
-        return false;
-    }
-
-    @Override
-    public boolean inactive(Authority authority) {
-        return false;
-    }
-
-    @Override
-    public boolean active(Authority authority) {
-        return false;
-    }
-
-    @Override
-    public Authority queryById(Object id) {
+    public List<Authority> queryAll() throws SQLException {
         return null;
     }
 
     @Override
-    public List<Authority> queryAll() {
+    public Pager<Authority> queryByPager(Pager pager) throws SQLException {
         return null;
     }
 
@@ -73,25 +75,22 @@ public class AuthorityDAO extends BaseDAO<Authority> {
      * @param action
      * @return
      */
-    public Authority queryByRoleIdAndAction(String roleId, String action) {
+    public Authority queryByRoleIdAndAction(String roleId, String action) throws SQLException {
         Authority authority = null;
-        String sql = "select a.id, a.name, a.action from t_authority a, t_authority_role ar "
-                + "where a.id = ar.authority_id and ar.role_id = ? and a.action = ?";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, roleId);
-            stmt.setString(2, action);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                authority = new Authority();
-                authority.setId(rs.getString("id"));
-                authority.setName(rs.getString("name"));
-                authority.setAction(rs.getString("action"));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        String sql = "select a.id, a.name, a.action from t_authority a join t_authority_role ar "
+                + "on a.id = ar.authority_id and ar.role_id = ? and a.action = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, roleId);
+        stmt.setString(2, action);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            authority = new Authority();
+            authority.setId(rs.getString("id"));
+            authority.setName(rs.getString("name"));
+            authority.setAction(rs.getString("action"));
         }
+        rs.close();
+        stmt.close();
         closeConnection();
         return authority;
     }
@@ -102,19 +101,15 @@ public class AuthorityDAO extends BaseDAO<Authority> {
      * @param action
      * @return
      */
-    public boolean shouldCheckAuthority(String action) {
-        String sql = "select a.id from t_authority a, t_authority_role ar where a.id = ar.authority_id and a.action = ?";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, action);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public boolean shouldCheckAuthority(String action) throws SQLException {
+        String sql = "select a.id from t_authority a join t_authority_role ar on a.id = ar.authority_id and a.action = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, action);
+        ResultSet rs = stmt.executeQuery();
+        boolean shouldCheck = rs.next() ? true : false;
+        rs.close();
+        stmt.close();
+        return shouldCheck;
     }
 
     /**
@@ -123,19 +118,15 @@ public class AuthorityDAO extends BaseDAO<Authority> {
      * @param roleId
      * @return
      */
-    public boolean isAllAuthority(String roleId) {
+    public boolean isAllAuthority(String roleId) throws SQLException {
         String sql = "select id from t_role where id = ? and all_authority = 1";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, roleId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, roleId);
+        ResultSet rs = stmt.executeQuery();
+        boolean isAll = rs.next() ? true : false;
+        rs.close();
+        stmt.close();
+        return isAll;
     }
 
 }

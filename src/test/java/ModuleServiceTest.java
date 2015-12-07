@@ -21,7 +21,7 @@ public class ModuleServiceTest extends TestCase {
     public void testAdd() {
         Module module = new Module();
         module.setId(UUID.randomUUID().toString());
-        module.setName("角色管理");
+        module.setName("模块管理");
         moduleService.add(module);
     }
 }

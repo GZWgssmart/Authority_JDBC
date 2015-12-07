@@ -23,10 +23,11 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="authority" />
+        <module name="Authority_JDBC" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="authority" target="1.5" />
+      <module name="Authority_JDBC" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
