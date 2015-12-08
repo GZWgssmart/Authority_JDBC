@@ -32,6 +32,15 @@ public class UserService {
         }
     }
 
+    public boolean addRolesForUser(User user) {
+        try {
+            return userDAO.addRolesForUser(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Pager<User> queryByPager(int pageNo, int pageSize) {
         Pager<User> pager = new Pager<User>();
         pager.setPageNo(pageNo);
@@ -59,6 +68,15 @@ public class UserService {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean updateDefaultRole(User user) {
+        try {
+            return userDAO.updateDefaultRole(user);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

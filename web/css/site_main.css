@@ -37,6 +37,10 @@ a:link, a:hover, a:visited, a:active {
     margin-right:50px;
 }
 
+.role a:link, .role a:visited, .role a:hover, .role a:active {
+    color:blue;
+}
+
 #errMsg {
     color:red;
 }

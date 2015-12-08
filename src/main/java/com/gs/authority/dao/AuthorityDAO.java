@@ -1,13 +1,14 @@
 package com.gs.authority.dao;
 
 import com.gs.authority.bean.Authority;
+import com.gs.authority.bean.Module;
 import com.gs.authority.bean.Pager;
-import com.sun.org.apache.xerces.internal.util.AugmentationsImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,11 +24,12 @@ public class AuthorityDAO extends BaseDAO<Authority> {
 
     @Override
     public Authority add(Authority authority) throws SQLException {
-        String sql = "insert into t_authority(id, name, action) values(?, ?, ?)";
+        String sql = "insert into t_authority(id, name, action, module_id) values(?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, authority.getId());
         stmt.setString(2, authority.getName());
         stmt.setString(3, authority.getAction());
+        stmt.setString(4, authority.getModule().getId());
         stmt.execute();
         int updateCount = stmt.getUpdateCount();
         stmt.close();
@@ -62,7 +64,31 @@ public class AuthorityDAO extends BaseDAO<Authority> {
 
     @Override
     public Pager<Authority> queryByPager(Pager pager) throws SQLException {
-        return null;
+        String sql_count = "select count(id) as total from t_authority";
+        String sql = "select a.id, a.name, a.action, m.id as m_id, m.name as m_name from t_authority a join t_module m on a.module_id = m.id limit " + pager.getBeginIndex() + ", " + pager.getPageSize();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            List<Authority> authorities = new ArrayList<Authority>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                Authority authority = new Authority();
+                authority.setId(rs.getString("id"));
+                authority.setName(rs.getString("name"));
+                authority.setAction(rs.getString("action"));
+                Module module = new Module();
+                module.setId(rs.getString("m_id"));
+                module.setName(rs.getString("m_name"));
+                authority.setModule(module);
+                authorities.add(authority);
+            }
+            pager.setObjects(authorities);
+            pager.setTotalRecords(count(sql_count));
+        }
+        rs.close();
+        stmt.close();
+        closeConnection();
+        return pager;
     }
 
     /**

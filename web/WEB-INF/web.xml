@@ -77,4 +77,22 @@
         <servlet-name>moduleAction</servlet-name>
         <url-pattern>/moduleAction/*</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>authorityAction</servlet-name>
+        <servlet-class>com.gs.authority.action.AuthorityAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>authorityAction</servlet-name>
+        <url-pattern>/authorityAction/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>roleAction</servlet-name>
+        <servlet-class>com.gs.authority.action.RoleAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roleAction</servlet-name>
+        <url-pattern>/roleAction/*</url-pattern>
+    </servlet-mapping>
 </web-app>

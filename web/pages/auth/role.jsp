@@ -28,15 +28,33 @@
             setPagination("#role_list")
         });
 
+        function formatterAllAuthority(value, rec) {
+            return rec.allAuthority ? "是" : "否";
+        }
+
+        function toAddRole() {
+            $("#addRole").window("open");
+        }
+
         function addRole() {
-            alert("add role");
+            $.post("<%=path %>/roleAction/add",
+                    $("#addRoleForm").serialize(),
+                    function (data) {
+                        if (data.result == "ok") {
+                            $("#addRole").window("close");
+                            $("#role_list").datagrid("reload");
+                        } else {
+                            $.messager.alert("提示", data.errMsg, "info");
+                        }
+                    }
+            );
         }
     </script>
 </head>
 <body style="margin:0;padding:0;">
 <table id="role_list" class="easyui-datagrid" toolbar="#role_tb" style="height:100%;"
        data-options="
-        url:'<%=path %>/moduleAction/listPager',
+        url:'<%=path %>/roleAction/listPager',
         method:'get',
 				rownumbers:true,
 				singleSelect:true,
@@ -48,16 +66,43 @@
     <tr>
         <th field="id" checkbox="true" width="50">角色ID</th>
         <th field="name" width="150">角色名称</th>
+        <th field="allAuthority" width="100" formatter="formatterAllAuthority">具有所有权限</th>
     </tr>
     </thead>
 </table>
 <div id="role_tb">
     <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true"
-       onclick="addRole();">添加</a>
+       onclick="toAddRole();">添加</a>
     <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-cut" plain="true"
        onclick="javascript:alert('Cut')">Cut</a>
     <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-save" plain="true"
        onclick="javascript:alert('Save')">Save</a>
 </div>
+
+<div class="easyui-window" title="添加角色" id="addRole" resizable="false" style="width:400px; height:200px;" mode="true"
+     closed="true">
+    <form id="addRoleForm">
+        <table>
+            <tr>
+                <td>角色名称:</td>
+                <td><input type="text" name="name" class="easyui-textbox"/></td>
+            </tr>
+            <tr>
+                <td>具有所有权限:</td>
+                <td>
+                    <input type="radio" name="allAuthority" value="yes"/>是&nbsp;&nbsp;
+                    <input type="radio" name="allAuthority" value="no" checked/>否
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="button" onclick="addRole();">确认</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 </body>
 </html>

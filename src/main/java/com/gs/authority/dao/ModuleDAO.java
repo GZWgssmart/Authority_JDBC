@@ -57,7 +57,17 @@ public class ModuleDAO extends BaseDAO<Module> {
 
     @Override
     public List<Module> queryAll() throws SQLException {
-        return null;
+        List<Module> modules = new ArrayList<Module>();
+        String sql = "select * from t_module";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            Module module = new Module();
+            module.setId(rs.getString("id"));
+            module.setName(rs.getString("name"));
+            modules.add(module);
+        }
+        return modules.size() > 0 ? modules : null;
     }
 
     @Override

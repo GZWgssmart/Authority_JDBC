@@ -11,11 +11,15 @@ import javax.servlet.http.HttpSession;
  */
 public class ContextUtil {
 
-    public static User currentUser(HttpSession session) {
+    public static User getCurrentUser(HttpSession session) {
         Object currentUserObj = session.getAttribute(Constants.SESSION_CURRENT_USER);
         if(currentUserObj != null) {
             return (User) currentUserObj;
         }
         return null;
+    }
+
+    public static void setCurrentUser(HttpSession session, User user) {
+        session.setAttribute(Constants.SESSION_CURRENT_USER, user);
     }
 }

@@ -33,6 +33,15 @@ public class ModuleService {
         }
     }
 
+    public List<Module> queryAll() {
+        try {
+            return moduleDAO.queryAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Pager<Module> queryByPager(int pageNo, int pageSize) {
         Pager<Module> pager = new Pager<Module>();
         pager.setPageNo(pageNo);

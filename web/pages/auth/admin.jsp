@@ -8,9 +8,9 @@
   Time: 13:17
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="gs" uri="http://www.gs.com/gs"%>
+<%@taglib prefix="gs" uri="http://www.gs.com/gs" %>
 <%
     String path = request.getContextPath();
 %>
@@ -40,14 +40,28 @@
                 });
             }
         }
+
+        function toChangeRole() {
+            $("#changeRole").window("open");
+        }
+
+        function changeRole(id, name) {
+            $.get("<%=path %>/userAction/changeRole?defaultRoleId=" + id + "&defaultRoleName=" + name, function (data) {
+                if(data.result == "ok") {
+                    $("#changeRole").window("close");
+                    window.location.href = "<%=path %>/userAction/admin";
+                }
+            }, "json");
+        }
     </script>
 </head>
 <body class="easyui-layout">
 <div data-options="region:'north',border:false" style="height:60px;">
     <img class="main_logo" src="<%=path %>/images/logo.jpg"/>
 
-    <div class="wel_msg">
+    <div class="wel_msg role">
         欢迎您:<b>${sessionScope.currentUser.name}</b>&nbsp;&nbsp;
+        当前角色：<b><a id="currentRole" href="javascript:void(0);" onclick="toChangeRole();">${sessionScope.currentUser.defaultRole.name}</a></b>&nbsp;&nbsp;
         <a href="<%=path %>/userAction/logout">退出</a>
     </div>
 </div>
@@ -63,10 +77,14 @@
                             <a href="javascript:void(0);"
                                onclick="addTab('模块管理','<%=path %>/moduleAction/list')">模块管理</a>
                         </li>
-                        <c:if test="${gs:hasAuth(sessionScope.currentUser, AuthorityConstants.ROLE_ADD)}">
                         <li>
-                            <a href="javascript:void(0);" onclick="addTab('角色管理','<%=path %>/userAction/list')">角色管理</a>
+                            <a href="javascript:void(0);" onclick="addTab('权限管理','<%=path %>/authorityAction/list')">权限管理</a>
                         </li>
+                        <c:if test="${gs:hasAuth(sessionScope.currentUser, AuthorityConstants.ROLE_ADD)}">
+                            <li>
+                                <a href="javascript:void(0);"
+                                   onclick="addTab('角色管理','<%=path %>/roleAction/list')">角色管理</a>
+                            </li>
                         </c:if>
                         <li>
                             <a href="javascript:void(0);" onclick="addTab('用户管理','<%=path %>/userAction/list')">用户管理</a>
@@ -84,5 +102,15 @@
         </div>
     </div>
 </div>
+
+<div class="easyui-window" title="选择用户当前角色" id="changeRole" resizable="false" style="width:200px; height:100px;" mode="true"
+     closed="true">
+    <c:forEach items="${sessionScope.currentUser.roles}" varStatus="status" var="role">
+        <div class="role">
+            <a href="javascript:void(0);" onclick="changeRole('${role.id }', '${role.name}')">${role.name }</a>
+        </div>
+    </c:forEach>
+</div>
+
 </body>
 </html>

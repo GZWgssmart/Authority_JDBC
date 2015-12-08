@@ -26,15 +26,35 @@ public class UserDAO extends BaseDAO<User> {
 
     @Override
     public User add(User user) throws SQLException {
-        String sql = "insert into t_user(id, name, password) values(?, ?, ?)";
+        String sql = "insert into t_user(id, name, password, default_role, role_names) values(?, ?, ?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, UUID.randomUUID().toString());
+        stmt.setString(1, user.getId());
         stmt.setString(2, user.getName());
         stmt.setString(3, EncryptUtil.md5Encrypt(user.getPassword()));
+        stmt.setString(4, user.getDefaultRole().getId());
+        stmt.setString(5, user.getRoleNames());
         stmt.execute();
         int updateCount = stmt.getUpdateCount();
-        closeConnection();
         return updateCount == 1 ? user : null;
+    }
+
+    public boolean addRolesForUser(User user) throws SQLException {
+        String sql = "insert into t_role_user(role_id, user_id) values(?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        List<Role> roles = user.getRoles();
+        for(Role role : roles) {
+            stmt.setString(1, role.getId());
+            stmt.setString(2, user.getId());
+            stmt.addBatch();
+        }
+        int[] results = stmt.executeBatch();
+        closeConnection();
+        for(int result : results) {
+            if(result != 1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -185,6 +205,14 @@ public class UserDAO extends BaseDAO<User> {
             }
         }
         return roles;
+    }
+
+    public boolean updateDefaultRole(User user) throws SQLException {
+        String sql = "update t_user set default_role = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.execute();
+        int updateCount = stmt.getUpdateCount();
+        return updateCount == 1 ? true : false;
     }
 
 }

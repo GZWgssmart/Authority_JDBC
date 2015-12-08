@@ -1,6 +1,8 @@
 package com.gs.authority.service;
 
 import com.gs.authority.bean.Authority;
+import com.gs.authority.bean.Module;
+import com.gs.authority.bean.Pager;
 import com.gs.authority.bean.Role;
 import com.gs.authority.dao.AuthorityDAO;
 import com.gs.authority.dao.RoleDAO;
@@ -54,6 +56,18 @@ public class AuthorityService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Pager<Authority> queryByPager(int pageNo, int pageSize) {
+        Pager<Authority> pager = new Pager<Authority>();
+        pager.setPageNo(pageNo);
+        pager.setPageSize(pageSize);
+        try {
+            pager = authorityDAO.queryByPager(pager);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pager;
     }
 
 }

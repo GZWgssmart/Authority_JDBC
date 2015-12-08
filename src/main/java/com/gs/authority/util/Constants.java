@@ -11,6 +11,20 @@ public class Constants {
         public static final String LIST = "list";
         public static final String LIST_PAGER = "listPager";
         public static final String ADD = "add";
+        public static final String ALL = "all";
+    }
+
+    public static class AuthorityAction {
+        public static final String LIST = "list";
+        public static final String LIST_PAGER = "listPager";
+        public static final String ADD = "add";
+    }
+
+    public static class RoleAction {
+        public static final String LIST = "list";
+        public static final String LIST_PAGER = "listPager";
+        public static final String ADD = "add";
+        public static final String ALL = "all";
     }
 
     public static class UserAction {
@@ -19,6 +33,8 @@ public class Constants {
         public static final String LOGOUT = "logout";
         public static final String LIST_PAGER = "listPager";
         public static final String LIST = "list";
+        public static final String ADD = "add";
+        public static final String CHANGE_ROLE = "changeRole";
     }
 
 }

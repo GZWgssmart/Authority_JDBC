@@ -1,5 +1,6 @@
 package com.gs.authority.dao;
 
+import com.gs.authority.bean.Module;
 import com.gs.authority.bean.Pager;
 import com.gs.authority.bean.Role;
 import com.gs.authority.bean.User;
@@ -22,10 +23,11 @@ public class RoleDAO extends BaseDAO<Role> {
 
     @Override
     public Role add(Role role) throws SQLException {
-        String sql = "insert into t_role(id, name) values(?, ?)";
+        String sql = "insert into t_role(id, name, all_authority) values(?, ?, ?)";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, role.getId());
         stmt.setString(2, role.getName());
+        stmt.setInt(3, role.isAllAuthority() ? 1 : 0);
         stmt.execute();
         int updateCount = stmt.getUpdateCount();
         stmt.close();
@@ -55,12 +57,43 @@ public class RoleDAO extends BaseDAO<Role> {
 
     @Override
     public List<Role> queryAll() throws SQLException {
-        return null;
+        List<Role> roles = new ArrayList<Role>();
+        String sql = "select * from t_role";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) {
+            Role role = new Role();
+            role.setId(rs.getString("id"));
+            role.setName(rs.getString("name"));
+            roles.add(role);
+        }
+        return roles.size() > 0 ? roles : null;
     }
 
     @Override
     public Pager<Role> queryByPager(Pager pager) throws SQLException {
-        return null;
+        String sql_count = "select count(id) as total from t_role";
+        String sql = "select r.id, r.name, r.all_authority " +
+                "from t_role r limit " + pager.getBeginIndex() + ", " + pager.getPageSize();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            List<Role> roles = new ArrayList<Role>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                Role role = new Role();
+                role.setId(rs.getString("id"));
+                role.setName(rs.getString("name"));
+                role.setAllAuthority(rs.getInt("all_authority") == 1 ? true : false);
+                roles.add(role);
+            }
+            pager.setTotalRecords(count(sql_count));
+            pager.setObjects(roles);
+        }
+        rs.close();
+        stmt.close();
+        closeConnection();
+        return pager;
     }
 
     /**
