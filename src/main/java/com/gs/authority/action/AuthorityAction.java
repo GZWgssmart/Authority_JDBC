@@ -7,6 +7,7 @@ import com.gs.authority.bean.Pager;
 import com.gs.authority.bean.Pager4EasyUI;
 import com.gs.authority.service.AuthorityService;
 import com.gs.authority.service.ModuleService;
+import com.gs.authority.util.AuthorityUtil;
 import com.gs.authority.util.Constants;
 import com.gs.authority.util.JSONUtil;
 
@@ -33,12 +34,18 @@ public class AuthorityAction extends HttpServlet {
         String uri = req.getRequestURI();
         String path = uri.substring(uri.lastIndexOf("/") + 1);
         PrintWriter out = resp.getWriter();
-        if (path.equals(Constants.ModuleAction.LIST)) {
+        if (path.equals(Constants.AuthorityAction.LIST)) {
             toListPage(req, resp);
-        } else if (path.equals(Constants.ModuleAction.LIST_PAGER)) {
+        } else if (path.equals(Constants.AuthorityAction.LIST_PAGER)) {
             out.println(listByPager(req));
-        } else if(path.equals(Constants.ModuleAction.ADD)) {
+        } else if(path.equals(Constants.AuthorityAction.ADD)) {
             out.println(add(req));
+        } else if (path.equals(Constants.AuthorityAction.LIST_PAGER_ROLE)) {
+            out.println(listByPagerAndRole(req));
+        } else if (path.equals(Constants.AuthorityAction.QUERY_BY_ROLE_ID)) {
+            out.println(queryByRoleId(req));
+        } else if (path.equals(Constants.AuthorityAction.ADD_AUTHORITY_FOR_ROLE)) {
+            out.println(addAuthorityForRole(req));
         }
     }
 
@@ -66,6 +73,28 @@ public class AuthorityAction extends HttpServlet {
         authority.setModule(module);
         authority = authorityService.add(authority);
         return authority == null ? JSONUtil.errResult("添加权限失败，请稍候再试") : JSONUtil.result();
+    }
+
+    private String listByPagerAndRole(HttpServletRequest req) {
+        String roleId = req.getParameter("roleId");
+        int pageNo = Integer.valueOf(req.getParameter("page"));
+        int pageSize = Integer.valueOf(req.getParameter("rows"));
+        Pager<Authority> pager = authorityService.queryByPagerAndRoleId(roleId, pageNo, pageSize);
+        Pager4EasyUI<Authority> authorityPager = new Pager4EasyUI<Authority>();
+        authorityPager.setTotal(pager.getTotalRecords());
+        authorityPager.setRows(pager.getObjects());
+        return JSON.toJSONString(authorityPager);
+    }
+
+    private String queryByRoleId(HttpServletRequest req) {
+        String roleId = req.getParameter("roleId");
+        return JSON.toJSONString(authorityService.queryByRoleId(roleId));
+    }
+
+    public String addAuthorityForRole(HttpServletRequest req) {
+        String roleId = req.getParameter("roleId");
+        String ids = req.getParameter("ids");
+        return authorityService.addAuthoritiesForRole(roleId, ids) ? JSONUtil.result() : JSONUtil.errResult("添加权限失败!");
     }
 
 }

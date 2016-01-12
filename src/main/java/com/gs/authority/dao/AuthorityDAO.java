@@ -4,6 +4,7 @@ import com.gs.authority.bean.Authority;
 import com.gs.authority.bean.Module;
 import com.gs.authority.bean.Pager;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,13 +60,36 @@ public class AuthorityDAO extends BaseDAO<Authority> {
 
     @Override
     public List<Authority> queryAll() throws SQLException {
-        return null;
+        List<Authority> authorities = null;
+        String sql = "select a.id, a.name, a.action, m.id as m_id, m.name as m_name from t_authority a " +
+                "join t_module m on a.module_id = m.id group by m_name, m_id, a.id, a.name, a.action";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) {
+            authorities = new ArrayList<Authority>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                Authority authority = new Authority();
+                authority.setId(rs.getString("id"));
+                authority.setName(rs.getString("name"));
+                authority.setAction(rs.getString("action"));
+                Module module = new Module();
+                module.setId(rs.getString("m_id"));
+                module.setName(rs.getString("m_name"));
+                authority.setModule(module);
+                authorities.add(authority);
+            }
+        }
+        rs.close();
+        stmt.close();
+        return authorities;
     }
 
     @Override
     public Pager<Authority> queryByPager(Pager pager) throws SQLException {
         String sql_count = "select count(id) as total from t_authority";
-        String sql = "select a.id, a.name, a.action, m.id as m_id, m.name as m_name from t_authority a join t_module m on a.module_id = m.id limit " + pager.getBeginIndex() + ", " + pager.getPageSize();
+        String sql = "select a.id, a.name, a.action, m.id as m_id, m.name as m_name from t_authority a " +
+                "join t_module m on a.module_id = m.id group by m.name, m.id, a.id, a.name, a.action limit " + pager.getBeginIndex() + ", " + pager.getPageSize();
         PreparedStatement stmt = conn.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
@@ -153,6 +177,85 @@ public class AuthorityDAO extends BaseDAO<Authority> {
         rs.close();
         stmt.close();
         return isAll;
+    }
+
+    /**
+     * 查询某个角色所有权限
+     * @param roleId
+     * @param pager
+     * @return
+     * @throws SQLException
+     */
+    public Pager<Authority> queryByPagerAndRoleId(String roleId, Pager pager) throws SQLException {
+        String sql_count = "select count(a.id) from t_authority a join t_authority_role ar " +
+                "on a.id = ar.authority_id and ar.role_id = '" + roleId + "'";
+        String sql = "select a.id, a.name as a_name, a.action, m.id as m_id, m.name as m_name from t_authority a " +
+                "join t_authority_role ar on a.id = ar.authority_id join t_module m " +
+                "on a.module_id = m.id and ar.role_id = ? group by m.name, m.id, a.id, a.name, a.action limit " + pager.getBeginIndex() + ", " + pager.getPageSize();
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, roleId);
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) {
+            List<Authority> authorities = new ArrayList<Authority>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                Authority authority = new Authority();
+                authority.setId(rs.getString("id"));
+                authority.setName(rs.getString("a_name"));
+                authority.setAction(rs.getString("action"));
+                Module module = new Module();
+                module.setId(rs.getString("m_id"));
+                module.setName(rs.getString("m_name"));
+                authority.setModule(module);
+                authorities.add(authority);
+            }
+            pager.setTotalRecords(count(sql_count));
+            pager.setObjects(authorities);
+        }
+        rs.close();
+        stmt.close();
+        closeConnection();
+        return pager;
+    }
+
+    public List<Authority> queryByRoleId(String roleId) throws SQLException {
+        List<Authority> authorities = null;
+        String sql = "select a.id, a.name as a_name, a.action, m.id as m_id, m.name as m_name from t_authority a " +
+                "join t_authority_role ar on a.id = ar.authority_id join t_module m " +
+                "on a.module_id = m.id and ar.role_id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, roleId);
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) {
+            authorities = new ArrayList<Authority>();
+            rs.beforeFirst();
+            while (rs.next()) {
+                Authority authority = new Authority();
+                authority.setId(rs.getString("id"));
+                authority.setName(rs.getString("a_name"));
+                authority.setAction(rs.getString("action"));
+                Module module = new Module();
+                module.setId(rs.getString("m_id"));
+                module.setName(rs.getString("m_name"));
+                authority.setModule(module);
+                authorities.add(authority);
+            }
+        }
+        rs.close();
+        stmt.close();
+        closeConnection();
+        return authorities;
+    }
+
+    public void addAuthoritiesForRole(String roleId, String[] authorityIds) throws SQLException {
+        String sql = "insert into t_authority_role(authority_id, role_id) values(?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        for(String id : authorityIds) {
+            stmt.setString(1, id);
+            stmt.setString(2, roleId);
+            stmt.addBatch();
+        }
+        int[] results = stmt.executeBatch();
     }
 
 }

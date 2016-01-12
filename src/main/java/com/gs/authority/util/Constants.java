@@ -18,6 +18,9 @@ public class Constants {
         public static final String LIST = "list";
         public static final String LIST_PAGER = "listPager";
         public static final String ADD = "add";
+        public static final String LIST_PAGER_ROLE = "listPagerByRole";
+        public static final String QUERY_BY_ROLE_ID = "queryByRoleId";
+        public static final String ADD_AUTHORITY_FOR_ROLE = "addAuthForRole";
     }
 
     public static class RoleAction {
@@ -25,6 +28,7 @@ public class Constants {
         public static final String LIST_PAGER = "listPager";
         public static final String ADD = "add";
         public static final String ALL = "all";
+        public static final String ROLE_AUTHORITY = "roleAuthority";
     }
 
     public static class UserAction {

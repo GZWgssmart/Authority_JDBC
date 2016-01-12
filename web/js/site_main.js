@@ -1,3 +1,17 @@
+function addTab(title, url) {
+    if ($('#operations').tabs('exists', title)) {
+        $('#operations').tabs('select', title);
+    } else {
+        var content = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
+        $('#operations').tabs('add', {
+            title: title,
+            content: content,
+            border: false,
+            closable: true
+        });
+    }
+}
+
 function setPagination(tableId) {
     var p = $(tableId).datagrid('getPager');
     $(p).pagination({

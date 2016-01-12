@@ -48,6 +48,7 @@ public class UserDAO extends BaseDAO<User> {
             stmt.addBatch();
         }
         int[] results = stmt.executeBatch();
+        stmt.close();
         closeConnection();
         for(int result : results) {
             if(result != 1) {
@@ -210,6 +211,7 @@ public class UserDAO extends BaseDAO<User> {
     public boolean updateDefaultRole(User user) throws SQLException {
         String sql = "update t_user set default_role = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, user.getDefaultRole().getId());
         stmt.execute();
         int updateCount = stmt.getUpdateCount();
         return updateCount == 1 ? true : false;

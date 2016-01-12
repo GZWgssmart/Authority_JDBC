@@ -40,11 +40,18 @@ public class RoleAction extends HttpServlet {
             out.println(add(req));
         } else if(path.equals(Constants.RoleAction.ALL)) {
             out.println(all());
+        } else if(path.equals(Constants.RoleAction.ROLE_AUTHORITY)) {
+            toRoleAuthorityPage(req, resp);
         }
     }
 
     private void toListPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/pages/auth/role.jsp").forward(req, resp);
+    }
+
+    private void toRoleAuthorityPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("roleId", req.getParameter("roleId"));
+        req.getRequestDispatcher("/pages/auth/role_authority.jsp").forward(req, resp);
     }
 
     private String listByPager(HttpServletRequest req) {
@@ -78,7 +85,7 @@ public class RoleAction extends HttpServlet {
         String allAuthority = req.getParameter("allAuthority");
         role.setAllAuthority(allAuthority.equals("yes") ? true : false);
         role = roleService.add(role);
-        return role == null ? JSONUtil.errResult("添加权限失败，请稍候再试") : JSONUtil.result();
+        return role == null ? JSONUtil.errResult("添加角色失败，请稍候再试") : JSONUtil.result();
     }
 
 }

@@ -12,7 +12,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>管理登录</title>
+    <title>XXX管理系统</title>
     <meta charset="UTF-8" />
 
     <link rel="stylesheet" href="<%=path %>/js/jquery-easyui/themes/default/easyui.css"/>
