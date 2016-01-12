@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c697046c-bc41-4836-b151-ee70b39658f5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/bean/CheckBoxTree4EasyUI.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/pages/auth/role_authority.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/action/AuthorityAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/action/AuthorityAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/action/RoleAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/action/RoleAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/bean/Authority.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/bean/Authority.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/dao/AuthorityDAO.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/dao/AuthorityDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/dao/UserDAO.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/dao/UserDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/service/AuthorityService.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/service/AuthorityService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gs/authority/util/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/com/gs/authority/util/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/site_main.js" afterPath="$PROJECT_DIR$/web/js/site_main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/auth/admin.jsp" afterPath="$PROJECT_DIR$/web/pages/auth/admin.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/auth/login.jsp" afterPath="$PROJECT_DIR$/web/pages/auth/login.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/auth/role.jsp" afterPath="$PROJECT_DIR$/web/pages/auth/role.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/auth/role_authority.jsp" afterPath="$PROJECT_DIR$/web/pages/auth/role_authority.jsp" />
     </list>
     <ignored path="authority.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -123,10 +110,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthorityAction.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AuthorityAction.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/gs/authority/action/AuthorityAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.0533643">
+            <state vertical-scroll-proportion="0.0">
               <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
               <folding />
             </state>
@@ -143,11 +130,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="role_authority.jsp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="role_authority.jsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/pages/auth/role_authority.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-61.25">
-              <caret line="98" column="119" selection-start-line="98" selection-start-column="119" selection-end-line="98" selection-end-column="119" />
+            <state vertical-scroll-proportion="0.14814815">
+              <caret line="68" column="46" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -1328,7 +1315,7 @@
       <workItem from="1449238182705" duration="44430000" />
       <workItem from="1450225928714" duration="2030000" />
       <workItem from="1450251548604" duration="86000" />
-      <workItem from="1452558920063" duration="12159000" />
+      <workItem from="1452558920063" duration="12354000" />
     </task>
     <servers />
   </component>
@@ -1365,7 +1352,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109849000" />
+    <option name="totallyTimeSpent" value="110044000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1382,17 +1369,17 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32599118" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32599118" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.49676898" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.50646204" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.49353796" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32892805" sideWeight="0.49353796" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32892805" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24555735" sideWeight="0.5116279" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24555735" sideWeight="0.5116279" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24878837" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24958949" sideWeight="0.4883721" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17405583" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1902,18 +1889,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/pages/auth/role_authority.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gs/authority/action/AuthorityAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-61.25">
-          <caret line="98" column="119" selection-start-line="98" selection-start-column="119" selection-end-line="98" selection-end-column="119" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gs/authority/action/AuthorityAction.java">
+    <entry file="file://$PROJECT_DIR$/web/pages/auth/role_authority.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0533643">
-          <caret line="47" column="49" selection-start-line="47" selection-start-column="49" selection-end-line="47" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.14814815">
+          <caret line="68" column="46" selection-start-line="68" selection-start-column="46" selection-end-line="68" selection-end-column="46" />
           <folding />
         </state>
       </provider>

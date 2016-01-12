@@ -51,7 +51,7 @@
                     ids += nodes[i].id;
                 }
             }
-            if(id != '') {
+            if(ids != '') {
                 $.post("<%=path %>/authorityAction/addAuthForRole",
                         {"roleId":"${roleId }","ids":ids},
                         function(data) {
@@ -65,6 +65,8 @@
                                 $.messager.alert("提示", data.errMsg, "info");
                             }
                         }, "json");
+            } else {
+                $.messager.alert("提示", "未选择或没有可添加的权限", "info");
             }
         }
     </script>
